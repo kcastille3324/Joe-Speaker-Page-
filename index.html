@@ -224,6 +224,17 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 @media (prefers-reduced-motion: reduce) { .float { animation: none; } }
 @media (max-width: 979px) { .portrait { width: min(100%, 390px); } .hero-copy { padding-bottom: 0; } .float.f1 { left: -8px; } .float.f2 { right: -8px; } }
+/* Tablet: two columns so the portrait stays above the fold */
+@media (min-width: 760px) and (max-width: 979px) {
+  .hero-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 28px; }
+  .hero h1 { font-size: clamp(60px, 9.4vw, 88px); }
+  .hero-copy { padding-bottom: 48px; gap: 20px; }
+  .portrait { width: 100%; }
+  .float { padding: 10px 12px; }
+  .float .ic { display: none; }
+  .float.f1 { left: -14px; bottom: 96px; }
+  .float.f2 { right: -10px; bottom: 24px; }
+}
 @media (max-width: 420px) { .float { padding: 10px 12px; } .float .ic { display: none; } }
 
 /* ============ STATS ============ */
