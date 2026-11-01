@@ -146,7 +146,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .nav .btn { padding: 10px 18px; font-size: 14.5px; }
 .compass-mini { width: 30px; height: 30px; flex: none; }
 .compass-mini .needle { transform-origin: 20px 20px; }
-@media (max-width: 980px) { .nav-links { display: none; } }
+@media (max-width: 980px) { .nav-links { display: none; } .nav { background: var(--navy-deep); backdrop-filter: none; -webkit-backdrop-filter: none; } }
 .menu-btn { display: none; align-items: center; gap: 8px; min-height: 44px; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .28); background: transparent; color: #fff; font: 700 14.5px var(--f-display); cursor: pointer; }
 .menu-btn:hover { border-color: var(--blue); }
 .menu-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
@@ -213,7 +213,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .portrait .frame { position: relative; aspect-ratio: 4 / 5.15; border-radius: 240px 240px 0 0; overflow: hidden; background: linear-gradient(180deg, var(--joe-2), var(--joe-deep)); max-width: 100%; }
 .portrait .frame img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 10%; }
 .portrait .ring { position: absolute; inset: -20px -20px 0 -20px; border: 1.5px dashed rgba(125, 194, 121, .6); border-bottom: 0; border-radius: 260px 260px 0 0; pointer-events: none; }
-.float { position: absolute; display: flex; align-items: center; gap: 12px; background: rgba(4, 42, 58, .92); border: 1px solid var(--rule-dark); border-radius: var(--r); padding: 12px 16px; box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .7); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: bob 6s ease-in-out infinite; }
+.float { position: absolute; display: flex; align-items: center; gap: 12px; background: rgba(4, 42, 58, .96); border: 1px solid var(--rule-dark); border-radius: var(--r); padding: 12px 16px; box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .7); animation: bob 6s ease-in-out infinite; }
 .float b { display: block; font-family: var(--f-display); font-weight: 800; font-size: 15px; color: #fff; line-height: 1.2; }
 .float span { display: block; font-size: 12.5px; color: var(--on-dark-muted); line-height: 1.35; }
 .float .ic { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; flex: none; background: rgba(1, 160, 159, .14); color: var(--blue); }
@@ -250,7 +250,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .motion-btn .pl { display: none; fill: currentColor; stroke: none; }
 .motion-btn[aria-pressed="true"] .pl { display: block; }
 .motion-btn[aria-pressed="true"] .pz { display: none; }
-.motion-paused *, .motion-paused *::before, .motion-paused *::after { animation-play-state: paused !important; }
+.motion-paused *, .motion-paused *::before, .motion-paused *::after,
+.offscreen *, .offscreen *::before, .offscreen *::after { animation-play-state: paused !important; }
 @media (prefers-reduced-motion: reduce) { .motion-btn { display: none; } }
 .ticker .eyebrow { color: var(--on-dark-muted); }
 .track { display: flex; width: max-content; animation: slide 48s linear infinite; padding-block: 16px 20px; }
@@ -1055,6 +1056,14 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
   mnav.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !mnav.hidden) setMenu(false, true); });
   document.addEventListener('click', function (e) { if (!mnav.hidden && !e.target.closest('.nav')) setMenu(false); });
+
+  // Pause animations in sections that are off-screen (saves CPU on phones)
+  if ('IntersectionObserver' in window) {
+    var anim = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { e.target.classList.toggle('offscreen', !e.isIntersecting); });
+    }, { rootMargin: '100px 0px' });
+    document.querySelectorAll('.hero, .ticker, .loop-card, .voices, .bookband, .pod-card, .booking').forEach(function (el) { anim.observe(el); });
+  }
 
   // Pause / resume all decorative motion (WCAG 2.2.2)
   var motionBtn = document.getElementById('motion-btn');
