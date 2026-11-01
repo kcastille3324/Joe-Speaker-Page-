@@ -44,13 +44,13 @@ Severity: **Critical** blocks a task or breaks the law outright. **High** is a W
 | 14 | Philosophy loop | The decorative slogan inside the tab list was read out of context | Accessibility | Low | Mark it `aria-hidden` | **Fixed** |
 | 15 | Motto, sign-off | Montserrat 800/900 italic was faked by thickening the 700 italic | Visual hierarchy | Low | Load the real italic weights | **Fixed** |
 | 16 | Mobile menu panel (new) | Hero text showed faintly through the 98%-opaque panel. Found during verification. | Visual | Low | Make the panel solid | **Fixed** |
-| 17 | Whole page, mid-range phones | About 1 s of style and layout work plus 0.36 s of rendering under 4× CPU throttling. Causes: backdrop blur on the nav and floating cards, stacked gradients, the 3D book, and constant animations. This keeps mobile FCP and LCP at 3.7 s. | Performance | Medium | Remove the blur from the floating cards, simplify the hero background, and pause animations when off-screen | Proposed |
-| 18 | Testimonials | Five-star icons suggest ratings the quoted people never gave | Content | Medium | Remove the stars | Proposed |
+| 17 | Whole page, mid-range phones | About 1 s of style and layout work plus 0.36 s of rendering under 4× CPU throttling. Causes: backdrop blur on the nav and floating cards, stacked gradients, the 3D book, and constant animations. This keeps mobile FCP and LCP at 3.7 s. | Performance | Medium | Remove the blur from the floating cards and the mobile header, and pause animations when off-screen | **Fixed** (decision 2) |
+| 18 | Testimonials | Five-star icons suggest ratings the quoted people never gave | Content | Medium | Remove the stars | **Fixed** (decision 3) |
 | 19 | Booking | No real submission. The form drafts an email the visitor has to send, so some inquiries will be lost. | Conversion | Medium | Use Netlify Forms (built into the host, no new dependency) with email alerts to C2H | Proposed |
-| 20 | Content accuracy | Some details can't be verified from public sources: two ticker entries (Air Force Services Center, JBMDL Building Leaders 2025), the CLO role description, the condensed testimonials, and the Talks focus-area tags | Content | Medium | Have Joe confirm, or remove | Proposed |
-| 21 | Hero, tablet 760–979 px | The single-column layout leaves a large empty area on the right and pushes the photo below the fold | Responsiveness / Layout | Medium | Two-column hero at tablet width with a smaller H1 | Proposed |
-| 22 | Breadcrumbs, logo, C2H links | They open new tabs without warning. Once hosted on c2htransform.com, internal links should open in the same tab. | Usability | Low | Same-tab for internal C2H links, plus "(opens in new tab)" text for external ones | Proposed |
-| 23 | CTAs | Two primary button colors: green "Book Joe to speak" (Joe's brand) and blue "Book Joe" (C2H). This was deliberate under the brand split. | Consistency | Low | Confirm the rule or standardize on one | Proposed |
+| 20 | Content accuracy | Some details can't be verified from public sources: two ticker entries (Air Force Services Center, JBMDL Building Leaders 2025), the CLO role description, the condensed testimonials, and the Talks focus-area tags | Content | Medium | Keep the ticker entries and the CLO line (both backed by C2H documents); restore testimonials word for word | **Fixed** (decision 4) |
+| 21 | Hero, tablet 760–979 px | The single-column layout leaves a large empty area on the right and pushes the photo below the fold | Responsiveness / Layout | Medium | Two-column hero at tablet width with a smaller H1 | **Fixed** (decision 5) |
+| 22 | Breadcrumbs, logo, C2H links | They open new tabs without warning. Once hosted on c2htransform.com, internal links should open in the same tab. | Usability | Low | Same-tab for internal C2H links, plus "(opens in new tab)" text for external ones | **Fixed** (decision 6) |
+| 23 | CTAs | Two primary button colors: green "Book Joe to speak" (Joe's brand) and blue "Book Joe" (C2H). This was deliberate under the brand split. | Consistency | Low | Standardize: every primary CTA is green | **Fixed** (decision 7) |
 
 Checked and passing: no horizontal overflow at any viewport, no console errors, alt text on all content images, decorative SVGs hidden, visible focus rings in both themes, reduced-motion support, labeled form controls, keyboard tabs with arrow keys, CLS under 0.01, Best Practices 100, SEO 100.
 
@@ -82,7 +82,21 @@ Brand colors, logo, copy, layout structure and existing behavior are unchanged. 
   - submitting empty fields shows linked errors and focuses the first one
   - a valid submission drafts the inquiry to c2hinfo@c2htransform.com and moves focus to it
 
+## 2b. Decisions (approved by the client, 1 November 2026)
+
+| Commit | Decision | What changed |
+|---|---|---|
+| `1e0d8c4` | **7. One CTA color: green** | The header "Book Joe", the "Draft my inquiry" submit and "Open in email app" moved from C2H blue to Joe's green. Form focus and selected-chip states follow the teal/green palette. The C2H blue button styles and color tokens were removed from the page. |
+| `2d4b394` | **3. No stars; 4. Exact quotes** | Star rows removed. The Aaron Stubbs and AJ Kehl quotes were restored word for word from waypointbetter.com/about. The Gronski excerpt is marked with a leading ellipsis. The ticker entries stay: the JBMDL Building Leaders poster and the C2H travel sheet for AFSVC Child & Youth Programs both name Joe. The CLO line stays. |
+| `8d772b8` | **6. Link behavior** | 12 links to c2htransform.com open in the same tab. 9 external links still open a new tab and include "(opens in new tab)" for screen readers. |
+| `e120fb8` | **2. Mobile rendering** | The floating hero cards and the header below 980 px lose their blur effect. Animations pause while their section is off-screen. The design looks unchanged. |
+| `69691d2` | **5. Tablet hero** | From 760 to 979 px the hero uses two columns with a smaller H1 and compact floating cards, so Joe's portrait stays above the fold. |
+
+After these changes: axe found 0 violations at all four viewports, nothing overflows horizontally, there were no console errors, and every interaction check passed again.
+
 ## 3. Open recommendations (need approval)
+
+Items 2–7 below were decided and implemented (see 2b). Only item 1 remains open.
 
 1. **Real inquiry submissions (Conversion, Medium).** The form only drafts an email today. Every planner who doesn't press send is a lost lead. The site is on Netlify, which can capture form submissions and email them to c2hinfo@c2htransform.com without new code libraries. *Expected impact:* fewer lost leads and a record of every inquiry. *Needs:* approval of where submissions go and who gets notified.
 2. **Mobile rendering cost (Performance, Medium).** Removing the backdrop blur from the two floating hero cards, simplifying the hero to one gradient plus the route lines, and pausing animations off-screen should bring mobile LCP from 3.7 s toward about 2.5 s, which Lighthouse rates "good". *Trade-off:* the floating cards lose their frosted-glass look.

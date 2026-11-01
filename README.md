@@ -24,10 +24,9 @@ This repository is the single source of truth. The Netlify site and the Claude a
 ## Design
 
 - **Joe's palette leads the story sections:** deep teal `#06364A`, green `#7DC279` for headlines and accents, aqua `#01A09F` as the secondary accent, and white text.
-- **C2H frames the page:**
-  - navy header, booking section and footer
-  - C2H blue only on C2H actions
-  - Montserrat and Open Sans, 14 px radius
+- **C2H frames the page:** navy header, booking section and footer; Montserrat and Open Sans; 14 px radius.
+- **One call-to-action color:** every primary button is Joe's green with deep-teal text.
+- **Links:** links to c2htransform.com open in the same tab. External links open a new tab and say so to screen readers.
 - **Works everywhere:** light and dark mode, phone through desktop, keyboard and screen readers (axe: 0 violations; Lighthouse accessibility 100), and reduced motion.
 
 ## Preview locally
