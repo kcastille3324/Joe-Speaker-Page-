@@ -36,8 +36,6 @@ body { margin: 0; }
   --rule-dark: #1E5568;
   --steel: #2F5D8C;
   --blue: #01A09F;
-  --cta: #2563EB;
-  --cta-hover: #1D4ED8;
   --on-dark: #FFFFFF;
   --on-dark-muted: #B5CDD3;
   /* Joe's brand: his palette leads the story bands */
@@ -86,7 +84,7 @@ p { margin: 0; }
 h1, h2, h3, h4 { margin: 0; font-family: var(--f-display); color: var(--heading); line-height: 1.05; text-wrap: balance; letter-spacing: -.02em; }
 a { color: inherit; }
 :focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; border-radius: 4px; }
-.light :focus-visible { outline-color: var(--cta); }
+.light :focus-visible { outline-color: var(--link); }
 [hidden] { display: none !important; }
 .skip { position: fixed; left: max(16px, env(safe-area-inset-left, 0px)); top: calc(env(safe-area-inset-top, 0px) + 10px); z-index: 100; padding: 12px 18px; border-radius: 999px; background: #fff; color: #06364A; font-family: var(--f-display); font-weight: 700; font-size: 15px; text-decoration: none; transform: translateY(-160%); transition: transform .15s ease; }
 .skip:focus { transform: none; outline: 3px solid #01A09F; outline-offset: 2px; }
@@ -124,11 +122,9 @@ main:focus { outline: none; }
 }
 .btn svg { width: 18px; height: 12px; flex: none; transition: transform .18s ease; }
 .btn:hover svg { transform: translateX(4px); }
-.btn-cta { background: var(--cta); color: #fff; box-shadow: 0 10px 24px -12px rgba(37, 99, 235, .8); }
-.btn-cta:hover { background: var(--cta-hover); }
 .btn-outline { border-color: rgba(255, 255, 255, .35); color: var(--on-dark); background: transparent; }
 .btn-outline:hover { border-color: var(--blue); color: var(--blue); }
-.btn-mint { background: var(--mint); color: #06364A; }
+.btn-mint { background: var(--mint); color: #06364A; box-shadow: 0 10px 24px -14px rgba(125, 194, 121, .9); }
 .btn-mint:hover { background: #94D090; }
 .btn-quiet { border-color: var(--line); color: var(--heading); background: var(--surface); }
 .btn-quiet:hover { border-color: var(--link); color: var(--link); }
@@ -490,7 +486,7 @@ form { margin-top: 22px; display: grid; grid-template-columns: repeat(2, minmax(
 .field label i { font-style: normal; color: var(--link); }
 .field input, .field select, .field textarea { width: 100%; font: 400 16px var(--f-body); color: var(--ink); background: var(--bg); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; transition: border-color .15s ease, box-shadow .15s ease; }
 .field textarea { min-height: 110px; resize: vertical; }
-.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--link); box-shadow: 0 0 0 4px rgba(37, 99, 235, .18); }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--link); box-shadow: 0 0 0 4px rgba(1, 160, 159, .22); }
 .field .err { font-size: 13.5px; color: #B42318; }
 :root[data-theme="dark"] .field .err { color: #FDA29B; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .field .err { color: #FDA29B; } }
@@ -499,9 +495,9 @@ form { margin-top: 22px; display: grid; grid-template-columns: repeat(2, minmax(
 .seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
 .seg label { text-transform: none; letter-spacing: 0; font-size: 14px; font-weight: 600; color: var(--heading); padding: 9px 14px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--bg); cursor: pointer; }
 .seg input:checked + label { background: var(--joe); border-color: var(--joe); color: #fff; }
-.seg input:focus-visible + label { outline: 3px solid var(--cta); outline-offset: 2px; }
-:root[data-theme="dark"] .seg input:checked + label { background: var(--cta); border-color: var(--cta); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .seg input:checked + label { background: var(--cta); border-color: var(--cta); } }
+.seg input:focus-visible + label { outline: 3px solid var(--link); outline-offset: 2px; }
+:root[data-theme="dark"] .seg input:checked + label { background: var(--mint); border-color: var(--mint); color: #06364A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .seg input:checked + label { background: var(--mint); border-color: var(--mint); color: #06364A; } }
 .form-foot { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin-top: 4px; }
 .form-foot small { color: var(--muted); font-size: 13.5px; max-width: 42ch; line-height: 1.45; }
 .result { margin-top: 22px; border: 1.5px solid var(--link); border-radius: 18px; padding: 22px; display: grid; gap: 14px; background: var(--bg); }
@@ -550,7 +546,7 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
       <circle cx="20" cy="20" r="13" fill="none" stroke="rgba(125, 194, 121, .5)" stroke-width="1" stroke-dasharray="2 3"/>
       <g class="needle" id="needle"><path d="M20 6 L24 20 L20 18 L16 20 Z" fill="#7DC279"/><path d="M20 34 L16 20 L20 22 L24 20 Z" fill="#01A09F"/></g>
     </svg>
-    <a class="btn btn-cta" href="#book">Book Joe</a>
+    <a class="btn btn-mint" href="#book">Book Joe</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></svg>
       <span>Menu</span>
@@ -989,7 +985,7 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
           <select id="f-topic" name="topic"><option value="">Not sure yet, recommend one</option><option>Better Has No Finish Line</option><option>Leadership Is a Responsibility, Not a Position</option><option>The Three Cs of Professional Excellence</option><option>Leading Through Complexity and Change</option><option>From Success to Significance</option></select></div>
         <div class="field full"><label for="f-msg">About your audience and goals</label><textarea id="f-msg" name="message" placeholder="Who will be in the room, and what should they walk away with?"></textarea></div>
         <div class="form-foot">
-          <button class="btn btn-cta" type="submit">Draft my inquiry <svg viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h15M10 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></button>
+          <button class="btn btn-mint" type="submit">Draft my inquiry <svg viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h15M10 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></button>
           <small>Nothing is sent from this page. You'll get a ready-to-send message for c2hinfo@c2htransform.com.</small>
         </div>
       </form>
@@ -999,7 +995,7 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
         <pre id="draft"></pre>
         <div class="row">
           <button class="copy-btn" type="button" id="copy-draft">Copy message</button>
-          <a class="btn btn-cta" id="mailto" href="mailto:c2hinfo@c2htransform.com" style="padding:10px 18px;font-size:14px">Open in email app</a>
+          <a class="btn btn-mint" id="mailto" href="mailto:c2hinfo@c2htransform.com" style="padding:10px 18px;font-size:14px">Open in email app</a>
           <button class="copy-btn" type="button" id="edit-draft">Edit details</button>
         </div>
       </div>
