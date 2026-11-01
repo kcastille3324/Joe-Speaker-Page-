@@ -399,7 +399,14 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .clo p { font-size: 15.5px; color: var(--ink); line-height: 1.5; }
 .clo b { font-family: var(--f-display); color: var(--heading); }
 .bio { display: grid; gap: 16px; max-width: 64ch; }
-.bio p:first-child { font-size: 19.5px; color: var(--heading); line-height: 1.6; }
+.bio p { text-wrap: pretty; }
+.bio p:first-child { font-size: 19px; color: var(--ink); line-height: 1.6; }
+.nowrap { white-space: nowrap; }
+@media (max-width: 600px) {
+  body { font-size: 16px; line-height: 1.65; }
+  .bio { gap: 14px; }
+  .bio p:first-child { font-size: 17.5px; line-height: 1.55; }
+}
 .facts { margin: 6px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .facts div { padding: 16px 18px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line); min-width: 0; }
 .facts dt { font-family: var(--f-display); font-size: 11.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
@@ -842,15 +849,15 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
         </div>
         <div class="bio">
           <p>Joseph “Joe” Bogdan is a retired United States Air Force Chief Master Sergeant, corporate HR leader, author, and educator with more than 26 years of military and corporate leadership experience.</p>
-          <p>During his military career, Joe served as the Chief of Enlisted Force Development at Headquarters Air Force, supporting the professional development of more than 410,000 Airmen. Today, he serves as a Senior Human Resources Business Partner for a Fortune 200 company.</p>
-          <p>Joe holds a Master of Arts in Organizational Leadership and is a Board Certified Coach (BCC) and SHRM Senior Certified Professional (SHRM-SCP). A former adjunct professor, he is currently pursuing a Doctor of Strategic Leadership.</p>
+          <p>During his military career, Joe served as the Chief of Enlisted Force Development at Headquarters Air Force, supporting the professional development of more than 410,000&nbsp;Airmen. Today, he serves as a Senior Human Resources Business Partner for a Fortune&nbsp;200 company.</p>
+          <p>Joe holds a Master of Arts in Organizational Leadership and is a Board Certified Coach (BCC) and SHRM Senior Certified Professional (<span class="nowrap">SHRM-SCP</span>). A former adjunct professor, he is currently pursuing a Doctor of Strategic Leadership.</p>
           <p>As the author of <i>Better Has No Finish Line</i> and host of the <i>Waypoint Better</i> podcast, Joe challenges individuals and organizations to embrace continuous improvement through his leadership philosophy of Serve, Recognize, Improve.</p>
         </div>
         <dl class="facts">
           <div><dt>Military</dt><dd>Chief Master Sergeant, USAF (Ret.)</dd></div>
           <div><dt>Corporate</dt><dd>Senior HR Business Partner, Fortune 200</dd></div>
           <div><dt>Education</dt><dd>M.A., Organizational Leadership; Doctor of Strategic Leadership (in progress)</dd></div>
-          <div><dt>Certifications</dt><dd>Board Certified Coach (BCC) · SHRM-SCP</dd></div>
+          <div><dt>Certifications</dt><dd>Board Certified Coach (BCC) · <span class="nowrap">SHRM-SCP</span></dd></div>
         </dl>
       </div>
     </div>
