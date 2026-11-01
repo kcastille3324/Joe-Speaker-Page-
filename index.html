@@ -163,7 +163,15 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .mnav a:hover { color: var(--blue); }
 @media (min-width: 981px) { .mnav { display: none !important; } }
 @media (prefers-reduced-motion: reduce) { .menu-btn path { transition: none; } }
-@media (max-width: 420px) { .logo .wm span { display: none; } .compass-mini { display: none; } }
+@media (max-width: 600px) { .logo .wm span { display: none; } .compass-mini { display: none; } }
+/* Phones/tablets: the hero already shows "Book Joe to speak", so the header
+   pill waits until the hero CTA scrolls out of view, then slides in. */
+@media (max-width: 980px) {
+  .nav .nav-cta { display: none; padding: 9px 16px; font-size: 14px; }
+  .show-nav-cta .nav .nav-cta { display: inline-flex; animation: ctaIn .25s ease-out; }
+}
+@keyframes ctaIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .show-nav-cta .nav .nav-cta { animation: none; } }
 .progress { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: transparent; }
 .progress i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--blue), var(--mint)); }
 
@@ -190,7 +198,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .crumbs li + li::before { content: "/"; margin-right: 6px; opacity: .6; }
 .crumbs a { text-decoration: none; display: inline-block; padding-block: 3px; }
 .crumbs a:hover { color: #fff; text-decoration: underline; }
-.crumbs [aria-current] { color: #fff; }
+.crumbs [aria-current] { color: #fff; display: inline-block; padding-block: 3px; }
 
 .hero-grid { position: relative; padding-block: clamp(34px, 5vw, 64px) 0; display: grid; gap: 40px; grid-template-columns: 1fr; align-items: end; }
 @media (min-width: 980px) { .hero-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; } }
@@ -563,7 +571,7 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
       <circle cx="20" cy="20" r="13" fill="none" stroke="rgba(125, 194, 121, .5)" stroke-width="1" stroke-dasharray="2 3"/>
       <g class="needle" id="needle"><path d="M20 6 L24 20 L20 18 L16 20 Z" fill="#7DC279"/><path d="M20 34 L16 20 L20 22 L24 20 Z" fill="#01A09F"/></g>
     </svg>
-    <a class="btn btn-mint" href="#book">Book Joe</a>
+    <a class="btn btn-mint nav-cta" href="#book">Book Joe</a>
     <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mnav">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path class="l1" d="M4 7h16"/><path class="l2" d="M4 12h16"/><path class="l3" d="M4 17h16"/></svg>
       <span>Menu</span>
@@ -1074,6 +1082,15 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
   mnav.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !mnav.hidden) setMenu(false, true); });
   document.addEventListener('click', function (e) { if (!mnav.hidden && !e.target.closest('.nav')) setMenu(false); });
+
+  // Header "Book Joe" (phones/tablets): show once the hero CTA has scrolled away
+  var heroCta = document.querySelector('.hero .actions');
+  if (heroCta && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      var e = entries[0];
+      document.documentElement.classList.toggle('show-nav-cta', !e.isIntersecting && e.boundingClientRect.top < 0);
+    }, { rootMargin: '-68px 0px 0px 0px' }).observe(heroCta);
+  } else { document.documentElement.classList.add('show-nav-cta'); }
 
   // Pause animations in sections that are off-screen (saves CPU on phones)
   if ('IntersectionObserver' in window) {
