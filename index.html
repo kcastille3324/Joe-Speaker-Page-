@@ -400,12 +400,10 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .clo b { font-family: var(--f-display); color: var(--heading); }
 .bio { display: grid; gap: 16px; max-width: 64ch; }
 .bio p { text-wrap: pretty; }
-.bio p:first-child { font-size: 19px; color: var(--ink); line-height: 1.6; }
 .nowrap { white-space: nowrap; }
 @media (max-width: 600px) {
   body { font-size: 16px; line-height: 1.65; }
   .bio { gap: 14px; }
-  .bio p:first-child { font-size: 17.5px; line-height: 1.55; }
 }
 .facts { margin: 6px 0 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .facts div { padding: 16px 18px; border-radius: var(--r); background: var(--surface); border: 1px solid var(--line); min-width: 0; }
