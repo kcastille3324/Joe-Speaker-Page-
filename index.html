@@ -697,6 +697,9 @@ form { margin-top: 22px; display: grid; grid-template-columns: repeat(2, minmax(
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .seg input:checked + label { background: var(--mint); border-color: var(--mint); color: #06364A; } }
 .form-foot { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin-top: 4px; }
 .form-foot small { color: var(--muted); font-size: 13.5px; max-width: 42ch; line-height: 1.45; }
+.form-foot small a { color: var(--link); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.result.sent { border-color: var(--better); }
 .result { margin-top: 22px; border: 1.5px solid var(--link); border-radius: 18px; padding: 22px; display: grid; gap: 14px; background: var(--bg); }
 .result h4 { font-size: 22px; font-weight: 800; color: var(--heading); display: flex; align-items: center; gap: 10px; }
 .result h4 svg { width: 24px; height: 24px; color: var(--better); }
@@ -1170,8 +1173,11 @@ html.js [data-start-hidden] { display: none; }
 
     <div class="form-card">
       <h3>Speaking inquiry</h3>
-      <p class="hint">Share the basics. Your inquiry is drafted and ready to send to the C2H team.</p>
-      <form id="inquiry" novalidate>
+      <p class="hint">Share the basics and your inquiry goes straight to the C2H team, who will reply by email.</p>
+      <form id="inquiry" name="speaking-inquiry" method="POST" action="/thanks/" data-netlify="true" data-netlify-honeypot="bot-field" novalidate>
+        <input type="hidden" name="form-name" value="speaking-inquiry">
+        <input type="hidden" name="subject" id="f-subject" value="Speaking inquiry for Joe Bogdan">
+        <p class="hp" aria-hidden="true"><label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
         <div class="field"><label for="f-name">Your name <i>*</i></label><input id="f-name" aria-describedby="f-name-err" name="name" autocomplete="name" required><span class="err" aria-live="polite" id="f-name-err"></span></div>
         <div class="field"><label for="f-email">Email <i>*</i></label><input id="f-email" aria-describedby="f-email-err" name="email" type="email" autocomplete="email" required><span class="err" aria-live="polite" id="f-email-err"></span></div>
         <div class="field"><label for="f-org">Organization <i>*</i></label><input id="f-org" aria-describedby="f-org-err" name="org" autocomplete="organization" required><span class="err" aria-live="polite" id="f-org-err"></span></div>
@@ -1191,13 +1197,18 @@ html.js [data-start-hidden] { display: none; }
           <select id="f-topic" name="topic"><option value="">Not sure yet, recommend one</option><option>Better Has No Finish Line</option><option>Leadership Is a Responsibility, Not a Position</option><option>The Three Cs of Professional Excellence</option><option>Leading Through Complexity and Change</option><option>From Success to Significance</option></select></div>
         <div class="field full"><label for="f-msg">About your audience and goals</label><textarea id="f-msg" name="message" placeholder="Who will be in the room, and what should they walk away with?"></textarea></div>
         <div class="form-foot">
-          <button class="btn btn-mint" type="submit">Draft my inquiry <svg viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h15M10 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></button>
-          <small>Nothing is sent from this page. You'll get a ready-to-send message for c2hinfo@c2htransform.com.</small>
+          <button class="btn btn-mint" type="submit" id="send-btn">Send inquiry <svg viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h15M10 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></button>
+          <small>Sent to c2hinfo@c2htransform.com and used only to answer your inquiry. See the <a href="https://c2htransform.com/privacy">C2H privacy policy</a>.</small>
         </div>
       </form>
+      <div class="result sent" id="sent" hidden>
+        <h4 id="sent-h" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>Inquiry sent</h4>
+        <p id="sent-msg" style="font-size:15.5px;color:var(--ink)">Your inquiry is with the C2H team. They'll reply by email.</p>
+        <div class="row"><button class="copy-btn" type="button" id="send-another">Send another inquiry</button></div>
+      </div>
       <div class="result" id="result" hidden>
         <h4 id="result-h" tabindex="-1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-6"/></svg>Your inquiry is ready</h4>
-        <p style="font-size:15px;color:var(--muted)">Copy it into an email to <b style="color:var(--heading)">c2hinfo@c2htransform.com</b>, or open it in your email app.</p>
+        <p id="result-why" style="font-size:15px;color:var(--muted)">Copy it into an email to <b style="color:var(--heading)">c2hinfo@c2htransform.com</b>, or open it in your email app.</p>
         <pre id="draft"></pre>
         <div class="row">
           <button class="copy-btn" type="button" id="copy-draft">Copy message</button>
@@ -1432,12 +1443,33 @@ html.js [data-start-hidden] { display: none; }
     lines.push('', 'Thank you,', v('f-name'), em);
     var body = lines.join('\n');
     var subject = 'Speaking inquiry for Joe Bogdan: ' + v('f-org') + (d ? ' (' + dateTxt + ')' : '');
+    document.getElementById('f-subject').value = subject;
     draft.textContent = 'To: ' + TO + '\nSubject: ' + subject + '\n\n' + body;
     mailto.href = 'mailto:' + TO + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    form.hidden = true; result.hidden = false;
-    result.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
-    document.getElementById('result-h').focus({ preventScroll: true });
+
+    function show(panel, heading) {
+      form.hidden = true; panel.hidden = false;
+      panel.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+      document.getElementById(heading).focus({ preventScroll: true });
+    }
+    function fallback(reason) {
+      document.getElementById('result-why').innerHTML = (reason ? reason + ' ' : '') + 'Copy it into an email to <b style="color:var(--heading)">' + TO + '</b>, or open it in your email app.';
+      show(result, 'result-h');
+    }
+    // Netlify Forms only receives posts on the Netlify-hosted site
+    if (!/(^|\.)netlify\.app$/.test(location.hostname)) { fallback(''); return; }
+    var btn = document.getElementById('send-btn'); btn.disabled = true; btn.firstChild.textContent = 'Sending… ';
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(new FormData(form)).toString() })
+      .then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        document.getElementById('sent-msg').textContent = 'Thanks, ' + v('f-name') + '. Your inquiry is with the C2H team, and they\'ll reply to ' + em + '.';
+        show(sent, 'sent-h');
+      })
+      .catch(function () { fallback("We couldn't send it from this page."); })
+      .then(function () { btn.disabled = false; btn.firstChild.textContent = 'Send inquiry '; });
   });
+  var sent = document.getElementById('sent');
+  document.getElementById('send-another').addEventListener('click', function () { form.reset(); sent.hidden = true; form.hidden = false; document.getElementById('f-name').focus(); });
   document.getElementById('copy-draft').addEventListener('click', function () { copyText(draft.textContent, this, draft); });
   document.getElementById('edit-draft').addEventListener('click', function () { result.hidden = true; form.hidden = false; document.getElementById('f-name').focus(); });
 })();
