@@ -163,7 +163,7 @@ Optional: SearchFit.ai (from the SEO skill's publisher) offers ongoing SEO and A
 
 ## Recommended roadmap
 
-**Phase 1: technical. I can do these now, with no content needed from Joe.** About 1 session.
+**Phase 1: technical. Done 11 Nov 2026** (commits `3b2a9d0`, `0993fdb`, `e94a89f`, `6cdf08b`, `a0554e9`), plus C1 (form submissions, sent to c2hinfo@c2htransform.com) and D3 (privacy link).
 - A1 Reflow fix · A2 High Contrast · A3 no-JS fallbacks · A4–A7 markup and targets
 - B1 JSON-LD · B2 canonical · B3/B4 title and description · B5 robots and sitemap · B6 social tags
 - E1 security headers · E2 image caching · E4 print styles
