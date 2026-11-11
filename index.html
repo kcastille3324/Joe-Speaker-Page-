@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<script>document.documentElement.classList.add('js')</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#06364A">
 <meta property="og:title" content="Joe Bogdan, C2H Keynote Speaker">
@@ -325,14 +326,16 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .loop-detail p { margin-top: 6px; color: var(--muted); font-size: 16px; }
 
 /* ============ TALKS ============ */
-.explorer { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.explorer { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+.explorer > * { min-width: 0; }
 @media (min-width: 980px) { .explorer { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 28px; align-items: stretch; } }
 .tablist { display: grid; gap: 10px; align-content: start; min-width: 0; }
 .tab { display: grid; grid-template-columns: 44px minmax(0, 1fr) 20px; gap: 14px; align-items: center; text-align: left; width: 100%; padding: 16px 18px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface); color: var(--heading); font: inherit; cursor: pointer; transition: border-color .18s ease, background-color .18s ease, transform .18s ease; }
 .tab:hover { border-color: var(--link); transform: translateX(3px); }
 .tab .ix { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--tint); color: var(--link); }
 .tab .ix svg { width: 22px; height: 22px; }
-.tab b { font-family: var(--f-display); font-weight: 700; font-size: 16.5px; line-height: 1.25; letter-spacing: -.01em; display: block; }
+.tab b { font-family: var(--f-display); font-weight: 700; font-size: 16.5px; line-height: 1.25; letter-spacing: -.01em; display: block; overflow-wrap: anywhere; }
+@media (max-width: 360px) { .tab { grid-template-columns: 36px minmax(0, 1fr) 16px; gap: 10px; padding: 14px; } .tab .ix { width: 36px; height: 36px; } .panel h3 { font-size: 28px; } .panel .bignum { display: none; } }
 .tab small { display: block; font-size: 13px; color: var(--muted); margin-top: 2px; }
 .tab .chev { width: 20px; height: 20px; color: var(--muted); transition: transform .18s ease; }
 .tab[aria-selected="true"] { background: var(--joe); border-color: var(--joe); color: #fff; }
@@ -415,7 +418,8 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .voices h2 { color: var(--mint); }
 .voices { background: linear-gradient(170deg, var(--joe) 0%, var(--joe-deep) 75%); color: #fff; position: relative; overflow: hidden; }
 .v-main { display: grid; grid-template-columns: 1fr; gap: 24px; padding-bottom: clamp(40px, 6vw, 64px); border-bottom: 1px solid var(--rule-dark); }
-@media (min-width: 980px) { .v-main { grid-template-columns: 110px minmax(0, 1fr); } }
+@media (min-width: 980px) { .v-main { grid-template-columns: 110px minmax(0, 1fr); } .v-main > .qm { grid-row: span 2; } .v-main > blockquote, .v-main > figcaption { grid-column: 2; } }
+.v-main > figcaption { margin-top: 0; }
 .qm { font-family: Georgia, "Times New Roman", serif; font-size: 160px; line-height: .7; height: 84px; color: var(--mint); }
 .v-main blockquote { margin: 0; font-family: var(--f-display); font-weight: 600; font-size: clamp(22px, 2.8vw, 33px); line-height: 1.35; letter-spacing: -.02em; max-width: 36ch; }
 .who { margin-top: 22px; display: flex; align-items: center; gap: 14px; }
@@ -501,7 +505,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
 .contact-list { display: grid; gap: 10px; }
 .cl-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 .cl-row .val { font-family: var(--f-mono); font-size: 15px; padding: 10px 16px; border: 1px solid var(--rule-dark); border-radius: 999px; user-select: all; word-break: break-all; color: #fff; }
-.copy-btn { font: 700 13px var(--f-display); letter-spacing: .04em; padding: 11px 16px; background: transparent; color: #fff; border: 1px solid var(--rule-dark); border-radius: 999px; cursor: pointer; }
+.copy-btn { min-height: 44px; font: 700 13px var(--f-display); letter-spacing: .04em; padding: 11px 16px; background: transparent; color: #fff; border: 1px solid var(--rule-dark); border-radius: 999px; cursor: pointer; }
 .copy-btn:hover { border-color: var(--blue); color: var(--blue); }
 .vosb { display: flex; flex-wrap: wrap; gap: 8px; }
 
@@ -516,7 +520,7 @@ form { margin-top: 22px; display: grid; grid-template-columns: repeat(2, minmax(
 .field label i { font-style: normal; color: var(--link); }
 .field input, .field select, .field textarea { width: 100%; font: 400 16px var(--f-body); color: var(--ink); background: var(--bg); border: 1.5px solid var(--line); border-radius: 12px; padding: 12px 14px; transition: border-color .15s ease, box-shadow .15s ease; }
 .field textarea { min-height: 110px; resize: vertical; }
-.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--link); box-shadow: 0 0 0 4px rgba(1, 160, 159, .22); }
+.field input:focus, .field select:focus, .field textarea:focus { outline: 2px solid var(--link); outline-offset: 2px; border-color: var(--link); box-shadow: 0 0 0 4px rgba(1, 160, 159, .22); }
 .field .err { font-size: 13.5px; color: #B42318; }
 :root[data-theme="dark"] .field .err { color: #FDA29B; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .field .err { color: #FDA29B; } }
@@ -547,12 +551,25 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
 .signoff span { color: var(--mint); font-style: italic; }
 .f-col { display: grid; gap: 10px; align-content: start; }
 .f-col h2 { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--on-dark-muted); }
-.f-col a { color: #fff; text-decoration: none; font-size: 15px; }
+.f-col a { color: #fff; text-decoration: none; font-size: 15px; display: inline-block; padding-block: 8px; }
 .f-col a:hover { color: var(--blue); text-decoration: underline; }
 .f-col p { font-size: 15px; color: #fff; }
 .f-bottom { border-top: 1px solid var(--rule-dark); padding-top: 22px; font-size: 13.5px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
 .f-bottom .logo img { width: 28px; }
 .f-bottom .logo .wm b { font-size: 18px; color: #fff; }
+/* Windows High Contrast / forced colors: keep selected states visible */
+@media (forced-colors: active) {
+  .tab[aria-selected="true"], .node[aria-selected="true"] { border: 3px solid Highlight; forced-color-adjust: none; background: Highlight; color: HighlightText; }
+  .tab[aria-selected="true"] *, .node[aria-selected="true"] * { color: HighlightText; }
+  .seg input:checked + label { border: 3px solid Highlight; background: Highlight; color: HighlightText; forced-color-adjust: none; }
+  .btn, .chip, .fmt, .pill { border: 1px solid ButtonText; }
+  .skip:focus, :focus-visible { outline: 3px solid Highlight; }
+}
+/* No JavaScript: show every talk, hide controls that need scripting */
+html:not(.js) .tablist, html:not(.js) .menu-btn, html:not(.js) .motion-btn { display: none !important; }
+html:not(.js) .explorer .panel { display: grid !important; margin-bottom: 16px; }
+html:not(.js) .nav .nav-cta { display: inline-flex; }
+html.js [data-start-hidden] { display: none; }
 </style>
 </head>
 <body>
@@ -699,7 +716,7 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
         <p class="quote-big">“Unmet potential is rarely the result of a lack of talent. It's the result of <mark>neglected inner work.</mark>”</p>
         <p class="quote-src">Joe Bogdan, <i>Better Has No Finish Line</i></p>
         <p>Joe's leadership model is a loop, not a ladder. Serve the people in front of you, recognize what they bring, improve on purpose, and then go around again. His standard for doing it well is the Three Cs.</p>
-        <div class="cs" aria-label="The Three Cs of professional excellence">
+        <div class="cs" role="group" aria-label="The Three Cs of professional excellence">
           <div><b>C</b><span>Character</span><small>Who you are when no one is watching</small></div>
           <div><b>C</b><span>Consistency</span><small>Showing up the same way every day</small></div>
           <div><b>C</b><span>Competence</span><small>Being excellent at the work</small></div>
@@ -772,7 +789,7 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
           <div class="actions"><a class="btn btn-mint" href="#book" data-topic="Better Has No Finish Line">Request this keynote <svg viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h15M10 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></a></div>
           <span class="bignum" aria-hidden="true">∞</span>
         </div>
-        <div class="panel" role="tabpanel" id="p-2" aria-labelledby="t-2" hidden>
+        <div class="panel" role="tabpanel" id="p-2" aria-labelledby="t-2" data-start-hidden>
           <p class="eyebrow">Leadership &amp; culture</p>
           <h3>Leadership is a responsibility, not a position</h3>
           <p class="desc">Exploring how authentic leadership, service, and accountability influence trust, organizational culture, and performance.</p>
@@ -780,7 +797,7 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
           <div class="actions"><a class="btn btn-mint" href="#book" data-topic="Leadership Is a Responsibility, Not a Position">Request this talk <svg viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h15M10 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></a></div>
           <span class="bignum" aria-hidden="true">02</span>
         </div>
-        <div class="panel" role="tabpanel" id="p-3" aria-labelledby="t-3" hidden>
+        <div class="panel" role="tabpanel" id="p-3" aria-labelledby="t-3" data-start-hidden>
           <p class="eyebrow">Professional credibility</p>
           <h3>The three Cs of professional excellence</h3>
           <p class="desc">Understanding how character, consistency, and competence establish credibility and contribute to sustained professional success.</p>
@@ -788,7 +805,7 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
           <div class="actions"><a class="btn btn-mint" href="#book" data-topic="The Three Cs of Professional Excellence">Request this talk <svg viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h15M10 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></a></div>
           <span class="bignum" aria-hidden="true">3C</span>
         </div>
-        <div class="panel" role="tabpanel" id="p-4" aria-labelledby="t-4" hidden>
+        <div class="panel" role="tabpanel" id="p-4" aria-labelledby="t-4" data-start-hidden>
           <p class="eyebrow">Change &amp; resilience</p>
           <h3>Leading through complexity and change</h3>
           <p class="desc">Developing the adaptability, resilience, and leadership capabilities necessary to navigate uncertainty and organizational change.</p>
@@ -796,7 +813,7 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
           <div class="actions"><a class="btn btn-mint" href="#book" data-topic="Leading Through Complexity and Change">Request this talk <svg viewBox="0 0 18 12" aria-hidden="true"><path d="M0 6h15M10 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2.2"/></svg></a></div>
           <span class="bignum" aria-hidden="true">04</span>
         </div>
-        <div class="panel" role="tabpanel" id="p-5" aria-labelledby="t-5" hidden>
+        <div class="panel" role="tabpanel" id="p-5" aria-labelledby="t-5" data-start-hidden>
           <p class="eyebrow">Purpose &amp; legacy</p>
           <h3>From success to significance</h3>
           <p class="desc">Moving beyond individual accomplishments to create meaningful impact and a lasting leadership legacy.</p>
@@ -874,10 +891,8 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
     </div>
     <figure class="v-main" style="margin:0">
       <div class="qm" aria-hidden="true">“</div>
-      <div>
         <blockquote>… He has led diverse groups of men and women in extremely challenging environments and has a reputation as a wise, character-based leader who cares deeply for his followers. Joe will absolutely be able to help individuals and organizations reach their next level of performance.</blockquote>
         <figcaption class="who"><span class="av" aria-hidden="true">JG</span><div><b>MG John L. Gronski, USA (Ret.)</b><span>Founder and CEO, Leader Grove, LLC · Foreword author, <i>Better Has No Finish Line</i></span></div></figcaption>
-      </div>
     </figure>
     <div class="v-grid">
       <figure>
@@ -1176,6 +1191,7 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
   }, false);
 
   // Talk explorer
+  document.querySelectorAll('[data-start-hidden]').forEach(function (p) { p.hidden = true; p.removeAttribute('data-start-hidden'); });
   var tabEls = Array.prototype.slice.call(document.querySelectorAll('.tablist .tab'));
   tabs(tabEls, function (t) {
     tabEls.forEach(function (x) {
