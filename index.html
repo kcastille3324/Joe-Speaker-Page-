@@ -723,6 +723,25 @@ footer .wrap { padding-block: 52px 36px; display: grid; gap: 32px; }
 .f-bottom { border-top: 1px solid var(--rule-dark); padding-top: 22px; font-size: 13.5px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
 .f-bottom .logo img { width: 28px; }
 .f-bottom .logo .wm b { font-size: 18px; color: #fff; }
+/* Print: a clean, ink-friendly copy planners can file or forward */
+@media print {
+  @page { margin: 14mm; }
+  html, body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+  .nav, .skip, .mnav, .ticker, .routes, .rose, .ring, .float, .progress, .menu-btn, .motion-btn, .tablist, .wave, .listen, .actions, .form-card, .extend, .crumbs, .formats .eyebrow ~ .fmt::before, .loop-card, .cover .shadow, .bignum { display: none !important; }
+  .dark, .hero, .stats, .voices, .bookband, .booking, .panel, .pod-card, .medal, footer { background: #fff !important; color: #000 !important; box-shadow: none !important; }
+  .dark *, .hero *, .stats *, .voices *, .bookband *, .booking *, .panel *, .medal *, footer * { color: #000 !important; }
+  .hero h1 .last, .b-copy h2, .motto, .bk-left h2 span { color: #06364A !important; }
+  .sec { padding-block: 14pt !important; }
+  .explorer .panel { display: block !important; border: 1px solid #999; margin-bottom: 8pt; padding: 10pt !important; break-inside: avoid; }
+  .portrait, .about-photo, .pod-card .ph { max-width: 45mm; }
+  .portrait .frame { border-radius: 4px; aspect-ratio: 4 / 5; }
+  .cover { width: 40mm; }
+  .cover .inner { transform: none !important; }
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 9pt; word-break: break-all; }
+  .logo::after, .xcard::after, .btn::after { content: none !important; }
+  h2, h3 { break-after: avoid; }
+  figure, .talk, .eps li, .themes li { break-inside: avoid; }
+}
 /* Windows High Contrast / forced colors: keep selected states visible */
 @media (forced-colors: active) {
   .tab[aria-selected="true"], .node[aria-selected="true"] { border: 3px solid Highlight; forced-color-adjust: none; background: Highlight; color: HighlightText; }
