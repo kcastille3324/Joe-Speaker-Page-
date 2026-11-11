@@ -29,6 +29,29 @@ This repository is the single source of truth. The Netlify site and the Claude a
 - **Links:** links to c2htransform.com open in the same tab. External links open a new tab and say so to screen readers.
 - **Works everywhere:** light and dark mode, phone through desktop, keyboard and screen readers (axe: 0 violations; Lighthouse accessibility 100), and reduced motion.
 
+## Keeping the copies in sync
+
+`index.html` here is the source. Netlify deploys it on every push to `main`. To refresh the Claude artifact preview:
+
+```bash
+python3 scripts/build-artifact.py
+```
+
+Then republish the generated file.
+
+## Other files
+
+| Path | Purpose |
+|---|---|
+| `_headers` | Netlify security headers (CSP and others) and 30-day image caching |
+| `robots.txt`, `sitemap.xml` | Crawl instructions and the page URL for search engines |
+| `thanks/index.html` | Confirmation page for inquiries sent without JavaScript |
+| `AUDIT-2.md` | Deep audit (SEO, conversion, security, ops) and skills map |
+
+## Speaking inquiries
+
+The booking form is a Netlify Form named `speaking-inquiry`, intended for c2hinfo@c2htransform.com. Submissions appear under **Netlify → joe-bogdan-speaker → Forms**. Email alerts to c2hinfo@ are turned on there under **Form notifications**.
+
 ## Preview locally
 
 ```bash
